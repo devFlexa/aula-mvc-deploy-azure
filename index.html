@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Do MVC à Aplicação Publicada</title>
+<style>
+*{box-sizing:border-box} body{margin:0;font-family:Arial,sans-serif;background:#f4f8fc;color:#10204d;line-height:1.55}
+header{background:linear-gradient(135deg,#005cab,#087ddd);color:white;padding:45px 20px;text-align:center}
+header h1{margin:0;font-size:clamp(2rem,5vw,3.5rem)} header p{font-size:1.2rem}
+.container{max-width:1150px;margin:auto;padding:28px 18px}
+.hero-img{width:100%;border-radius:18px;box-shadow:0 8px 24px #0002;margin-bottom:30px}
+h2{color:#005cab;border-left:6px solid #159957;padding-left:12px;margin-top:38px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.card{background:white;border-radius:14px;padding:20px;box-shadow:0 4px 14px #0001;border-top:4px solid #087ddd}
+.card h3{margin-top:0;color:#005cab} code{background:#eaf4ff;padding:3px 7px;border-radius:5px}
+.flow{background:#082b55;color:white;border-radius:16px;padding:24px;text-align:center;font-size:1.08rem;margin:22px 0}
+.arrow{color:#58b7ff;font-weight:bold;margin:0 8px}
+table{width:100%;border-collapse:collapse;background:white;border-radius:12px;overflow:hidden}
+th,td{padding:12px;border-bottom:1px solid #ddd;text-align:left} th{background:#005cab;color:white}
+.tip{background:#fff4dc;border-left:5px solid #f5a400;padding:16px;border-radius:8px;margin:20px 0}
+footer{text-align:center;background:#082b55;color:white;padding:20px;margin-top:35px}
+</style>
+<link rel="stylesheet" href="aula.css">
+</head>
+<body>
+<header>
+<p class="eyebrow">APRENDA NA PRÁTICA · DESENVOLVIMENTO WEB</p>
+<h1><span>Do MVC</span> à aplicação publicada</h1>
+<p>Uma jornada do seu código até a nuvem, em sete etapas.</p>
+</header>
+<main class="container">
+<nav aria-label="Navegação da aula"><a href="#objetivos">Objetivos</a><a href="#pratica">Atividade guiada</a><a href="#revisao">Revisão</a><button type="button" onclick="window.print()">Imprimir / salvar PDF</button></nav>
+
+<section class="journey" aria-labelledby="journey-title">
+<div class="section-heading"><div><p class="eyebrow">SEU MAPA DA PUBLICAÇÃO</p><h2 id="journey-title">Cada etapa, um passo mais perto do deploy.</h2></div><span class="pill">7 etapas · 1 aplicação online</span></div>
+<p class="journey-help">Explore os cartões para ver o que fazer e como validar cada etapa.</p>
+<svg class="svg-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+<symbol id="icon-code" viewBox="0 0 120 100"><rect x="16" y="8" width="88" height="63" rx="7" fill="#124781"/><rect x="23" y="15" width="74" height="49" rx="3" fill="#e4f5ff"/><path d="m46 30-12 10 12 10m28-20 12 10-12 10m-10-24-8 28" fill="none" stroke="#008beb" stroke-width="5" stroke-linecap="round"/><path d="M16 74 4 87q0 6 10 6h92q10 0 10-6l-12-13" fill="#62b8f0"/><path d="M45 77h30l5 7H40z" fill="#c4e7ff"/></symbol>
+<symbol id="icon-cloud" viewBox="0 0 120 100"><path d="M29 68C3 68 3 34 26 30 25 5 65-3 76 24c29-9 48 36 17 44Z" fill="#159ded"/><path d="m53 20-19 36h14l14-27 12 27H57l-5 9h36L66 20Z" fill="white"/><rect x="30" y="73" width="62" height="21" rx="5" fill="#174d85"/><path d="M39 81h28m-28 6h20" stroke="#88d4ff" stroke-width="3"/><circle cx="81" cy="83" r="4" fill="#62e69e"/></symbol>
+<symbol id="icon-git" viewBox="0 0 120 100"><rect x="27" y="14" width="67" height="67" rx="9" transform="rotate(45 60 48)" fill="#f56845"/><path d="M43 24v40m0-27 31 17v17" fill="none" stroke="white" stroke-width="6"/><g fill="white"><circle cx="43" cy="26" r="7"/><circle cx="43" cy="65" r="7"/><circle cx="74" cy="70" r="7"/></g></symbol>
+<symbol id="icon-docker" viewBox="0 0 120 100"><g fill="#168ce1" stroke="#d4f0ff" stroke-width="2"><rect x="16" y="35" width="20" height="18"/><rect x="37" y="35" width="20" height="18"/><rect x="58" y="35" width="20" height="18"/><rect x="37" y="16" width="20" height="18"/><rect x="58" y="16" width="20" height="18"/><rect x="58" y="-3" width="20" height="18"/></g><path d="M8 57h84q8-2 8-14 12 2 9 14l10 1q-5 12-22 12-14 30-49 25Q12 92 8 57" fill="#138dd6"/><circle cx="28" cy="69" r="3" fill="white"/><path d="M13 80q17 5 26-1" fill="none" stroke="#085a97" stroke-width="3"/></symbol>
+<symbol id="icon-nginx" viewBox="0 0 120 100"><path d="m60 3 42 24v47L60 98 18 74V27Z" fill="#11974a"/><path d="m60 3 42 24-42 24-42-24Z" fill="#37bd67" opacity=".65"/><text x="60" y="71" fill="white" font-family="Arial,sans-serif" font-weight="bold" font-size="58" text-anchor="middle">N</text></symbol>
+<symbol id="icon-lock" viewBox="0 0 120 100"><path d="m60 2 42 16v31q-1 31-42 49Q19 80 18 49V18Z" fill="#159957"/><path d="M44 46V32a16 16 0 0 1 32 0v14" fill="none" stroke="#c9ffe1" stroke-width="7"/><rect x="36" y="43" width="48" height="35" rx="6" fill="white"/><circle cx="60" cy="56" r="5" fill="#159957"/><path d="M60 57v10" stroke="#159957" stroke-width="4"/></symbol>
+<symbol id="icon-browser" viewBox="0 0 120 100"><rect x="7" y="11" width="106" height="79" rx="8" fill="#d5edff" stroke="#168ce1" stroke-width="3"/><path d="M8 30h104" stroke="#168ce1" stroke-width="3"/><g fill="#168ce1"><circle cx="19" cy="21" r="3"/><circle cx="29" cy="21" r="3"/><circle cx="39" cy="21" r="3"/></g><path d="M22 46h44m-44 12h28m-28 12h20" stroke="#89bee5" stroke-width="5"/><circle cx="87" cy="70" r="25" fill="#18a558"/><path d="m74 70 9 9 17-20" fill="none" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</defs></svg>
+<div class="roadmap">
+<a class="stage" href="#lesson-1"><span class="stage-number">1</span><h3>Projeto MVC</h3><svg aria-hidden="true"><use href="#icon-code"/></svg><strong>Desenvolver e testar</strong><span class="stage-tag">Model · View · Controller</span><span class="stage-link">Explorar etapa ↗</span></a>
+<a class="stage" href="#lesson-2"><span class="stage-number">2</span><h3>VM Azure</h3><svg aria-hidden="true"><use href="#icon-cloud"/></svg><strong>Preparar a máquina virtual</strong><span class="stage-tag">Linux · SSH · Rede</span><span class="stage-link">Explorar etapa ↗</span></a>
+<a class="stage" href="#lesson-3"><span class="stage-number">3</span><h3>Envio à VM</h3><svg aria-hidden="true"><use href="#icon-git"/></svg><strong>Clonar o projeto com Git</strong><span class="stage-tag">Código · Repositório · Versão</span><span class="stage-link">Explorar etapa ↗</span></a>
+<a class="stage" href="#lesson-4"><span class="stage-number">4</span><h3>Docker</h3><svg aria-hidden="true"><use href="#icon-docker"/></svg><strong>Empacotar e executar</strong><span class="stage-tag">Dockerfile → Imagem → Contêiner</span><span class="stage-link">Explorar etapa ↗</span></a>
+<a class="stage stage-green" href="#lesson-5"><span class="stage-number">5</span><h3>Nginx</h3><svg aria-hidden="true"><use href="#icon-nginx"/></svg><strong>Configurar o proxy reverso</strong><span class="stage-tag">Encaminhar para a aplicação</span><span class="stage-link">Explorar etapa ↗</span></a>
+<a class="stage stage-green" href="#lesson-6"><span class="stage-number">6</span><h3>Rede e HTTPS</h3><svg aria-hidden="true"><use href="#icon-lock"/></svg><strong>Configurar o acesso seguro</strong><span class="stage-tag">DNS · TLS · Portas 80 e 443</span><span class="stage-link">Explorar etapa ↗</span></a>
+<a class="stage stage-green" href="#lesson-7"><span class="stage-number">7</span><h3>Aplicação publicada</h3><svg aria-hidden="true"><use href="#icon-browser"/></svg><strong>Validar acesso e logs</strong><span class="stage-tag">Sua aplicação disponível na web</span><span class="stage-link">Explorar etapa ↗</span></a>
+</div>
+<div class="access-flow"><div class="access-title"><span class="eyebrow">DEPOIS DO DEPLOY</span><h3>Fluxo de acesso</h3></div><div class="visitor"><span aria-hidden="true">◎</span><strong>Usuário</strong></div><span class="connection">HTTPS · 443 <b aria-hidden="true">→</b></span><div class="vm-boundary"><span class="vm-caption">☁ Dentro da VM Azure</span><div class="flow-node"><svg aria-hidden="true"><use href="#icon-nginx"/></svg><strong>Nginx</strong></div><b class="flow-arrow" aria-hidden="true">→</b><div class="flow-node"><svg aria-hidden="true"><use href="#icon-docker"/></svg><strong>Aplicação MVC no Docker</strong><small>Porta sem acesso público</small></div></div></div>
+<p class="map-note">Se houver banco de dados: configurar conexão e persistência.</p>
+</section>
+
+<section id="objetivos" class="card intro">
+<p class="eyebrow">AULA INTRODUTÓRIA · LABORATÓRIO</p>
+<h2>O que você vai aprender</h2>
+<p>Entender o papel de cada componente, explicar o caminho de uma requisição e planejar a publicação de uma aplicação MVC.</p>
+<p><strong>Projeto proposto:</strong> uma página “Minha primeira publicação”, com nome do aluno e mensagem de boas-vindas, sem banco de dados.</p>
+<p><strong>Pré-requisitos:</strong> noções de HTML e terminal, Git no computador, conta Azure com permissão para criar recursos e um domínio cujo DNS você possa editar. A criação da VM e a instalação do Docker e do Nginx estão explicadas abaixo. O exemplo usa .NET 8; o SDK local é opcional para quem executar somente na VM.</p>
+</section>
+<h2>1. Visão geral</h2>
+<p>O objetivo é levar uma aplicação <strong>ASP.NET Core MVC</strong> que funciona no computador do desenvolvedor para uma máquina virtual no Azure, protegê-la e disponibilizá-la na internet.</p>
+<div class="flow">Usuário <span class="arrow">→</span> HTTPS :443 <span class="arrow">→</span> Nginx <span class="arrow">→</span> Aplicação MVC no Docker</div>
+
+<h2>2. Etapas da publicação</h2>
+<div class="grid">
+<div class="card"><h3>① Projeto MVC</h3><p>Você desenvolve e testa sua aplicação .NET localmente. Aqui ficam Controllers, Models, Views, serviços e acesso ao banco.</p></div>
+<div class="card"><h3>② VM Azure</h3><p>É um computador virtual na nuvem. Podemos criar uma VM com Ubuntu Linux, CPU, RAM, disco, rede e IP público.</p></div>
+<div class="card"><h3>③ Git</h3><p>Controla versões do código e facilita levá-lo até o servidor. Na VM podemos executar <code>git clone</code> para obter o projeto.</p></div>
+<div class="card"><h3>④ Docker</h3><p>Empacota a aplicação e suas dependências em uma imagem. Ao executar essa imagem, temos um <strong>container</strong>.</p></div>
+<div class="card"><h3>⑤ Nginx</h3><p>Fica na frente da aplicação como <strong>proxy reverso</strong>. Recebe requisições externas e encaminha para a aplicação que está no container.</p></div>
+<div class="card"><h3>⑥ Rede e HTTPS</h3><p>Configuramos domínio, DNS, certificado TLS, portas, NSG e firewall para permitir acesso seguro.</p></div>
+<div class="card"><h3>⑦ Aplicação publicada</h3><p>O usuário finalmente acessa algo como <code>https://meusite.com</code> sem precisar conhecer a porta interna da aplicação.</p></div>
+</div>
+
+<h2>3. Conceitos importantes</h2>
+<div class="grid">
+<div class="card"><h3>🔐 SSH</h3><p><strong>Secure Shell</strong> permite administrar a VM Linux remotamente pelo terminal. Normalmente utiliza a porta <strong>22</strong>.</p><code>ssh usuario@ip-da-vm</code></div>
+<div class="card"><h3>🌐 DNS</h3><p>Transforma um domínio amigável, como <code>meusite.com</code>, no endereço IP correspondente ao servidor.</p></div>
+<div class="card"><h3>🔒 Certificado TLS</h3><p>Permite autenticar o servidor para o domínio e estabelecer uma conexão HTTPS criptografada. Serviços como Let's Encrypt podem emitir certificados gratuitamente.</p></div>
+<div class="card"><h3>↪️ Proxy reverso</h3><p>O Nginx recebe a requisição em <strong>443</strong> e pode encaminhá-la internamente para a aplicação em <strong>8080</strong>.</p></div>
+<div class="card"><h3>🛡️ NSG</h3><p>O <strong>Network Security Group</strong> do Azure possui regras que controlam quais conexões podem chegar ou sair dos recursos de rede.</p></div>
+<div class="card"><h3>🔥 Firewall</h3><p>Dentro do Linux também podemos controlar tráfego, por exemplo com <code>ufw</code>. Assim temos mais de uma camada de proteção.</p></div>
+</div>
+
+<h2>4. Portas de rede</h2>
+<p>O IP identifica a máquina. A <strong>porta</strong> ajuda a identificar qual serviço naquela máquina deve receber a conexão.</p>
+<table><thead><tr><th>Porta</th><th>Uso comum</th><th>No projeto</th></tr></thead>
+<tbody>
+<tr><td>22</td><td>SSH</td><td>Administração da VM</td></tr>
+<tr><td>80</td><td>HTTP</td><td>Acesso web sem TLS / redirecionamento</td></tr>
+<tr><td>443</td><td>HTTPS</td><td>Acesso público seguro</td></tr>
+<tr><td>8080</td><td>Aplicação web</td><td>Pode ser usada internamente pelo container</td></tr>
+<tr><td>1433</td><td>SQL Server</td><td>Banco de dados, quando aplicável</td></tr>
+</tbody></table>
+
+<h2>5. Como uma requisição percorre o sistema?</h2><p>Antes da conexão, o navegador resolve o domínio pelo DNS, ou usa uma resposta em cache. O DNS resolve o endereço; ele não encaminha o tráfego HTTP.</p>
+<div class="flow">Navegador <span class="arrow">→</span> IP da VM <span class="arrow">→</span> NSG / Firewall <span class="arrow">→</span> Nginx :443 <span class="arrow">→</span> Aplicação MVC no container :8080</div>
+<div class="tip"><strong>💡 Ideia-chave:</strong> a porta 8080 da aplicação não precisa ficar aberta para toda a internet. O público conversa com o Nginx pela porta 443, e o Nginx encaminha a requisição para a aplicação internamente.</div>
+
+<h2>6. Analogia para memorizar</h2>
+<div class="grid">
+<div class="card"><h3>🏢 Azure VM</h3><p>O prédio onde o sistema funciona.</p></div>
+<div class="card"><h3>🔑 SSH</h3><p>A entrada administrativa do prédio.</p></div>
+<div class="card"><h3>📦 Docker</h3><p>A caixa padronizada que contém a aplicação.</p></div>
+<div class="card"><h3>🧑‍💼 Nginx</h3><p>O recepcionista que encaminha cada visitante.</p></div>
+<div class="card"><h3>📖 DNS</h3><p>A lista que relaciona o nome do local ao seu endereço.</p></div>
+<div class="card"><h3>🪪 TLS</h3><p>A credencial digital usada para estabelecer uma conexão segura.</p></div>
+</div>
+<section id="pratica">
+<h2>7. Do servidor vazio ao site publicado</h2>
+<p>Siga na ordem. Cada bloco indica onde executar e o que conferir antes de continuar. O roteiro usa uma <strong>VM nova Ubuntu Server 24.04 LTS, arquitetura x64</strong>, Nginx no host e uma aplicação MVC em Docker. Não execute os comandos Linux no PowerShell local.</p>
+<div class="guide-start card">
+<h3>Prepare seu material</h3>
+<p><a class="download-link" href="downloads/exemplo-mvc.zip" download>↓ Baixar o projeto MVC da prática</a></p>
+<p>Extraia o ZIP. A pasta com <code>AulaMvc.csproj</code>, <code>Program.cs</code>, <code>Dockerfile</code> e <code>compose.yaml</code> é a raiz da aplicação. Ela é diferente da pasta deste site de aula.</p>
+<div class="table-scroll"><table><caption>Valores que você vai substituir ao longo do guia</caption><thead><tr><th>Marcador</th><th>Seu valor</th></tr></thead><tbody>
+<tr><td><code>IP_PUBLICO_DA_VM</code></td><td>IPv4 exibido na visão geral da VM no Azure.</td></tr>
+<tr><td><code>SEU_IP_PUBLICO</code></td><td>IPv4 público da sua conexão à internet, usado para liberar SSH.</td></tr>
+<tr><td><code>SEU_USUARIO</code></td><td>Seu usuário do GitHub.</td></tr>
+<tr><td><code>aula.seudominio.com</code></td><td>Subdomínio real que você controla. Substitua também no Nginx e no Certbot.</td></tr>
+<tr><td><code>azureuser</code></td><td>Usuário Linux criado na VM; mantenha esse nome para seguir os exemplos.</td></tr>
+</tbody></table></div>
+<p class="tip">A VM e os recursos associados podem gerar cobrança. Confira a estimativa no portal antes de criar. Ao terminar, use a etapa de encerramento do laboratório.</p>
+</div>
+<nav class="guide-nav" aria-label="Passos do laboratório"><a href="#lesson-2">2 · VM e SSH</a><a href="#lesson-3">3 · Git</a><a href="#lesson-4">4 · Docker</a><a href="#lesson-5">5 · Nginx</a><a href="#lesson-6">6 · HTTPS</a><a href="#lesson-7">7 · Validação</a></nav>
+
+<article class="lab-step" id="lesson-1">
+<p class="eyebrow">PONTO DE PARTIDA · COMPUTADOR LOCAL</p><h3>1. Tenha uma aplicação pronta para publicar</h3>
+<p>Use o ZIP acima para acompanhar exatamente os comandos. O exemplo contém um Model com os dados da mensagem, um Controller que os prepara e uma View que gera a página. Não precisa de banco de dados.</p>
+<p>Se tiver o SDK .NET 8 instalado, abra o terminal na pasta extraída e faça o teste abaixo. Sem o SDK, siga para a VM: o Docker fará a compilação.</p>
+<pre data-label="PowerShell local · pasta do projeto MVC"><code>dotnet run --urls http://localhost:5080</code></pre>
+<p class="expected">Confira: abra <code>http://localhost:5080</code>. Deve aparecer “Minha primeira publicação”. Use Ctrl+C para encerrar.</p>
+<details><summary>Já tenho meu próprio projeto MVC</summary><p>Primeiro conclua com o exemplo. Para adaptar, alinhe a versão do SDK e do runtime no Dockerfile com o TargetFramework do seu projeto e ajuste o nome do .csproj e da DLL. Aplicações com autenticação, banco ou uploads exigem configuração e persistência adicionais. A configuração de proxy em Program.cs deve ser integrada ao pipeline existente, antes dos middlewares que dependem do protocolo.</p></details>
+</article>
+
+<article class="lab-step" id="lesson-2">
+<p class="eyebrow">ETAPA 2 · PORTAL AZURE → POWERSHELL → SSH</p><h3>2. Crie e prepare a VM</h3>
+<h4>2.1 · Criar o servidor no portal</h4>
+<ol>
+<li>Acesse <a href="https://portal.azure.com/">portal.azure.com</a>, procure <strong>Máquinas virtuais</strong> e escolha <strong>Criar → Máquina virtual do Azure</strong>.</li>
+<li>Selecione sua assinatura. Crie um grupo exclusivo chamado <code>rg-aula-mvc</code> e nomeie a VM como <code>vm-aula-mvc</code>.</li>
+<li>Escolha uma região disponível para sua assinatura, imagem <strong>Ubuntu Server 24.04 LTS — x64</strong> e um tamanho com pelo menos <strong>2 vCPU e 4 GiB de RAM</strong> para compilar o exemplo. Compare o custo exibido.</li>
+<li>Em autenticação, escolha <strong>Chave pública SSH</strong>, usuário <code>azureuser</code> e gerar novo par de chaves. Nomeie a chave <code>vm-aula-mvc_key</code>.</li>
+<li>Em portas de entrada, escolha inicialmente <strong>Nenhuma</strong>. Na aba Rede, mantenha uma rede e sub-rede novas e associe um IP público. Confira que o IP público usa alocação estática.</li>
+<li>Revise e crie. Baixe a chave privada <code>vm-aula-mvc_key.pem</code> quando solicitado e guarde-a. Ela não deve ir para o Git.</li>
+<li>Ao concluir, abra a VM e anote seu <strong>Endereço IP público</strong>.</li>
+</ol>
+<h4>2.2 · Liberar somente seu acesso administrativo</h4>
+<p>Na VM, abra <strong>Configurações de rede / Rede</strong> e o NSG associado. Adicione estas regras de entrada. Os nomes da interface podem variar. Use prioridades livres, menores que as regras padrão de bloqueio.</p>
+<div class="table-scroll"><table><thead><tr><th>Prioridade</th><th>Nome</th><th>Origem</th><th>Destino / porta</th><th>Protocolo / ação</th></tr></thead><tbody>
+<tr><td>300</td><td>Permitir-SSH-meu-IP</td><td>Seu IPv4 público /32</td><td>Qualquer / 22</td><td>TCP / Permitir</td></tr>
+<tr><td>310</td><td>Permitir-HTTP</td><td>Internet</td><td>Qualquer / 80</td><td>TCP / Permitir</td></tr>
+<tr><td>320</td><td>Permitir-HTTPS</td><td>Internet</td><td>Qualquer / 443</td><td>TCP / Permitir</td></tr>
+</tbody></table></div>
+<p>Em todas, deixe a <strong>porta de origem</strong> como <code>*</code>. Não crie liberação para 8080. Se houver NSG na sub-rede e na interface, ambos precisam permitir o tráfego. Para descobrir seu IPv4 público, execute no computador:</p>
+<pre data-label="PowerShell local"><code>curl.exe -4 https://api.ipify.org</code></pre>
+<h4>2.3 · Conectar com a chave privada</h4>
+<p>Substitua o IP e ajuste o caminho se a chave estiver em outra pasta:</p>
+<pre data-label="PowerShell local"><code>ssh -i "$env:USERPROFILE\Downloads\vm-aula-mvc_key.pem" azureuser@IP_PUBLICO_DA_VM</code></pre>
+<p>Na primeira conexão, confira a impressão digital da chave do servidor. No portal, o recurso <strong>Executar comando → RunShellScript</strong> permite executar <code>ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub</code> para comparar com a chave ED25519 exibida pelo SSH. Confirme com <code>yes</code> se corresponder.</p>
+<details><summary>SSH informa que a chave privada tem permissões abertas</summary><p>No PowerShell, limite a leitura da sua chave ao usuário atual e tente conectar novamente:</p><pre data-label="PowerShell local"><code>$chaveAula = "$env:USERPROFILE\Downloads\vm-aula-mvc_key.pem"
+icacls $chaveAula /inheritance:r
+icacls $chaveAula /grant:r "$($env:USERNAME):(R)"</code></pre><p>Confira com <code>icacls $chaveAula</code> se não restaram permissões explícitas para outros usuários. Em Linux/macOS, use <code>chmod 600 caminho/da/chave.pem</code>.</p></details>
+<h4>2.4 · Atualizar o Ubuntu e configurar o firewall</h4>
+<p>A partir daqui, use o terminal conectado à VM. Execute os blocos um por vez.</p>
+<pre data-label="Bash · VM via SSH"><code>sudo apt-get update
+sudo apt-get upgrade -y
+sudo apt-get install -y git curl ca-certificates nginx ufw dnsutils snapd nano
+cat /etc/os-release</code></pre>
+<p>Se a atualização pedir reinicialização, execute <code>sudo reboot</code>, aguarde e conecte de novo por SSH. Antes de ativar o firewall, substitua o IP abaixo pelo IPv4 público do seu computador:</p>
+<pre data-label="Bash · VM via SSH"><code>sudo ufw default deny incoming
+sudo ufw default allow outgoing
+sudo ufw allow from SEU_IP_PUBLICO to any port 22 proto tcp
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+sudo ufw enable
+sudo ufw status numbered</code></pre>
+<p class="expected">Confira: Ubuntu 24.04 e UFW ativo, com 22 restrita ao seu IP e 80/443 liberadas. Abra uma segunda conexão SSH antes de fechar a primeira. Se seu IP mudar, ajuste a regra do NSG e do UFW; o Executar comando do portal ajuda a recuperar o acesso.</p>
+<p class="source">Referência: <a href="https://learn.microsoft.com/en-us/azure/virtual-machines/linux/quick-create-portal">criação de VM Linux no Azure</a>.</p>
+</article>
+
+<article class="lab-step" id="lesson-3">
+<p class="eyebrow">ETAPA 3 · COMPUTADOR LOCAL → VM</p><h3>3. Leve o código para o servidor com Git</h3>
+<h4>3.1 · Publicar o exemplo no seu repositório</h4>
+<p>No GitHub, crie um repositório <strong>público</strong> chamado <code>aula-mvc</code>, vazio, sem adicionar README, licença ou .gitignore. Este exemplo não contém segredos. Abra no VS Code a pasta extraída do ZIP e execute nela:</p>
+<pre data-label="PowerShell local · pasta com AulaMvc.csproj"><code>git init
+git add .
+git commit -m "Adiciona aplicação MVC da aula"
+git branch -M main
+git remote add origin https://github.com/SEU_USUARIO/aula-mvc.git
+git push -u origin main</code></pre>
+<p>Substitua <code>SEU_USUARIO</code>. Se o Git pedir identidade, configure <code>git config user.name "Seu Nome"</code> e <code>git config user.email "seu@email.com"</code>, repita o commit e continue. No envio, conclua a autenticação do GitHub pelo gerenciador de credenciais. Não use a senha da conta como token.</p>
+<h4>3.2 · Clonar na VM</h4>
+<pre data-label="Bash · VM via SSH"><code>mkdir -p ~/apps
+cd ~/apps
+git clone https://github.com/SEU_USUARIO/aula-mvc.git
+cd aula-mvc
+ls -la</code></pre>
+<p class="expected">Confira: <code>~/apps/aula-mvc/AulaMvc.csproj</code>, <code>Dockerfile</code> e <code>compose.yaml</code> devem existir. Se estiverem dentro de outra pasta, entre nela antes de executar os próximos comandos.</p>
+<details><summary>Alternativa: enviar sem GitHub</summary><p>Você pode enviar os arquivos por SCP. No PowerShell, entre na pasta extraída e rode o comando abaixo. Esta alternativa substitui a etapa de clone; atualizações posteriores também devem ser reenviadas.</p><pre data-label="PowerShell local · pasta do projeto MVC"><code>scp -i "$env:USERPROFILE\Downloads\vm-aula-mvc_key.pem" -r . azureuser@IP_PUBLICO_DA_VM:~/apps/aula-mvc</code></pre><p>Antes, crie o destino na VM com <code>mkdir -p ~/apps/aula-mvc</code>. Envie somente o exemplo, sem chaves ou arquivos de credenciais.</p></details>
+</article>
+
+<article class="lab-step" id="lesson-4">
+<p class="eyebrow">ETAPA 4 · BASH NA VM</p><h3>4. Instale o Docker e execute a aplicação</h3>
+<h4>4.1 · Instalar Docker Engine e Compose</h4>
+<p>Estes comandos são para a VM Ubuntu 24.04 x64 nova desta aula. Adicione a chave e o repositório oficial:</p>
+<pre data-label="Bash · VM via SSH"><code>sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu noble stable" | sudo tee /etc/apt/sources.list.d/docker.list
+sudo apt-get update
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo systemctl enable --now docker
+sudo docker run --rm hello-world
+sudo docker compose version</code></pre>
+<p class="expected">Confira: o teste mostra “Hello from Docker!” e o Compose informa sua versão. O guia usa <code>sudo docker</code> em todos os comandos.</p>
+<h4>4.2 · Entender os arquivos do exemplo</h4>
+<p>O <code>Dockerfile</code> já está no ZIP. A primeira imagem compila o projeto; a segunda contém apenas o runtime e os arquivos publicados.</p>
+<pre data-label="Arquivo · Dockerfile"><code>FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+COPY AulaMvc.csproj ./
+RUN dotnet restore AulaMvc.csproj
+COPY . ./
+RUN dotnet publish AulaMvc.csproj -c Release -o /out --no-restore
+
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
+WORKDIR /app
+COPY --from=build /out ./
+ENV ASPNETCORE_HTTP_PORTS=8080
+USER app
+EXPOSE 8080
+ENTRYPOINT ["dotnet", "AulaMvc.dll"]</code></pre>
+<p>O <code>compose.yaml</code> também está pronto. Ele publica <code>127.0.0.1:8080:8080</code>: a primeira porta é da VM e a segunda é do contêiner. O vínculo com 127.0.0.1 mantém esse acesso local. O arquivo configura reinício automático e limite dos logs.</p>
+<details><summary>compose.yaml completo (incluído no ZIP)</summary><pre data-label="Arquivo: compose.yaml"><code>name: aula-mvc
+services:
+  web:
+    build: .
+    image: aula-mvc:local
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8080:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_HTTP_PORTS: "8080"
+      Aluno: ${ALUNO:-Minha turma}
+      TrustedProxy: ${TRUSTED_PROXY:?Configure TRUSTED_PROXY no arquivo .env}
+    networks:
+      - aula
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+networks:
+  aula:
+    external: true
+    name: aula-net</code></pre></details>
+<h4>4.3 · Criar a rede e configurar as variáveis</h4>
+<p>Crie a rede uma vez. Se repetir a etapa e ela já existir, apenas confira com <code>sudo docker network inspect aula-net</code> e continue. O Docker escolhe uma faixa disponível.</p>
+<pre data-label="Bash · VM via SSH"><code>cd ~/apps/aula-mvc
+sudo docker network create aula-net
+PROXY_AULA=$(sudo docker network inspect aula-net --format '{{(index .IPAM.Config 0).Gateway}}')
+printf 'ALUNO=Minha turma\nTRUSTED_PROXY=%s\n' "$PROXY_AULA" &gt; .env
+chmod 600 .env
+nano .env</code></pre>
+<p>No editor, personalize <code>ALUNO=Seu Nome</code>. Mantenha o IP gerado em <code>TRUSTED_PROXY</code>. Salve com <strong>Ctrl+O, Enter</strong> e saia com <strong>Ctrl+X</strong>. O comando printf recria o .env; não o repita se quiser preservar sua personalização.</p>
+<p>O Nginx vai acessar a porta local e o tráfego chegará ao contêiner pelo gateway dessa rede. O <code>Program.cs</code> do exemplo confia especificamente nesse endereço para interpretar <code>X-Forwarded-Proto</code> e <code>X-Forwarded-For</code>. Assim, a página reconhece HTTPS após a configuração do certificado. O .env fica fora do Git e da imagem.</p>
+<details><summary>Como o Program.cs reconhece o proxy</summary><p>O middleware processa os cabeçalhos antes das rotas e aceita o IP de proxy configurado. O Nginx cuida do redirecionamento para HTTPS neste exemplo.</p><pre data-label="Arquivo: Program.cs"><code>using System.Net;
+using Microsoft.AspNetCore.HttpOverrides;
+
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddControllersWithViews();
+builder.Services.Configure&lt;ForwardedHeadersOptions&gt;(options =&gt;
+{
+    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+    options.ForwardLimit = 1;
+    if (IPAddress.TryParse(builder.Configuration["TrustedProxy"], out var proxy))
+    {
+        options.KnownProxies.Add(proxy);
+        options.KnownProxies.Add(proxy.MapToIPv6());
+    }
+});
+
+var app = builder.Build();
+app.UseForwardedHeaders();
+// Neste laboratório, o Nginx faz o redirecionamento HTTP -&gt; HTTPS.
+app.UseRouting();
+app.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+app.MapGet("/health", () =&gt; Results.Ok(new { status = "ok" }));
+app.Run();</code></pre></details>
+<h4>4.4 · Compilar, iniciar e testar</h4>
+<pre data-label="Bash · VM via SSH · ~/apps/aula-mvc"><code>sudo docker compose config --quiet
+sudo docker compose up -d --build
+sudo docker compose ps
+sudo docker compose logs --tail=50 web
+curl -i http://127.0.0.1:8080/health</code></pre>
+<p class="expected">Confira: serviço <code>web</code> em execução, porta <code>127.0.0.1:8080</code> e resposta <code>HTTP/1.1 200 OK</code> com <code>{"status":"ok"}</code>. A primeira compilação pode demorar. Se o curl falhar enquanto a aplicação inicia, aguarde alguns segundos e repita. Não avance se persistir.</p>
+<p class="source">Referências: <a href="https://docs.docker.com/engine/install/ubuntu/">Docker Engine no Ubuntu</a> e <a href="https://docs.docker.com/engine/network/drivers/bridge/">redes bridge do Docker</a>.</p>
+</article>
+
+<article class="lab-step" id="lesson-5">
+<p class="eyebrow">ETAPA 5 · BASH NA VM</p><h3>5. Configure o Nginx como proxy reverso</h3>
+<h4>5.1 · Criar o arquivo do site</h4>
+<pre data-label="Bash · VM via SSH"><code>sudo systemctl enable --now nginx
+sudo nano /etc/nginx/sites-available/aula-mvc</code></pre>
+<p>Cole o conteúdo abaixo no editor. Substitua <code>aula.seudominio.com</code> pelo seu domínio real. As variáveis com <code>$</code> pertencem ao Nginx: mantenha-as exatamente como estão.</p>
+<pre data-label="Arquivo · /etc/nginx/sites-available/aula-mvc"><code>server {
+    listen 80;
+    server_name aula.seudominio.com;
+
+    location / {
+        proxy_pass http://127.0.0.1:8080;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}</code></pre>
+<p>Salve com Ctrl+O, Enter e saia com Ctrl+X. Este arquivo começa com HTTP; o Certbot adicionará HTTPS na próxima etapa.</p>
+<h4>5.2 · Ativar e validar o site</h4>
+<pre data-label="Bash · VM via SSH"><code>sudo ln -s /etc/nginx/sites-available/aula-mvc /etc/nginx/sites-enabled/aula-mvc
+sudo nginx -t</code></pre>
+<p>Se o link já existir, não precisa recriá-lo. Só recarregue quando a validação indicar <code>syntax is ok</code> e <code>test is successful</code>:</p>
+<pre data-label="Bash · VM via SSH"><code>sudo systemctl reload nginx
+curl -i -H 'Host: aula.seudominio.com' http://127.0.0.1/health</code></pre>
+<p class="expected">Confira: status 200 e JSON com status ok, agora passando pelo Nginx. A página padrão do Nginx pode continuar aparecendo quando você acessa apenas o IP; nosso site é selecionado pelo nome do domínio.</p>
+<h4>5.3 · Testar de fora da VM antes do DNS</h4>
+<pre data-label="PowerShell local · substitua domínio e IP"><code>curl.exe --resolve aula.seudominio.com:80:IP_PUBLICO_DA_VM http://aula.seudominio.com/health</code></pre>
+<p>Esse teste usa o IP informado e envia o nome correto ao Nginx. Deve retornar o JSON. Se falhar aqui, mas funcionar dentro da VM, confira NSG, firewall e IP público.</p>
+<p class="source">Referência: <a href="https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/linux-nginx?view=aspnetcore-8.0">ASP.NET Core atrás do Nginx</a>.</p>
+</article>
+
+<article class="lab-step" id="lesson-6">
+<p class="eyebrow">ETAPA 6 · PAINEL DNS → BASH NA VM</p><h3>6. Aponte o domínio e habilite HTTPS</h3>
+<h4>6.1 · Criar o registro DNS</h4>
+<p>No provedor que gerencia o DNS do seu domínio, adicione um registro <strong>A</strong>. Para <code>aula.seudominio.com</code>, normalmente o campo Nome/Host recebe <code>aula</code>; o valor recebe o IPv4 público da VM. Use TTL de 300 segundos, se disponível. Se o provedor oferecer proxy/CDN, deixe <strong>somente DNS</strong> nesta prática.</p>
+<p>Não crie um registro AAAA se não configurou IPv6. Se houver um AAAA antigo para esse subdomínio, corrija-o ou remova-o para evitar acesso ao servidor errado.</p>
+<pre data-label="Bash · VM via SSH"><code>dig +short A aula.seudominio.com @1.1.1.1
+dig +short AAAA aula.seudominio.com @1.1.1.1
+curl -I http://aula.seudominio.com</code></pre>
+<p class="expected">Confira: o registro A retorna o IPv4 da VM; no cenário sem IPv6, AAAA não retorna endereço. O site deve abrir por HTTP também no seu computador. Aguarde a propagação se a resposta ainda estiver antiga.</p>
+<p class="tip">Sem um domínio sob seu controle, você pode concluir o teste HTTP pelo comando --resolve da etapa anterior. Para completar o HTTPS deste roteiro, é necessário um domínio que resolva para a VM.</p>
+<h4>6.2 · Emitir e instalar o certificado</h4>
+<p>Com o DNS correto e a porta 80 acessível pela internet, instale o Certbot e solicite o certificado. Substitua o domínio; informe seu e-mail quando solicitado e leia os termos apresentados.</p>
+<pre data-label="Bash · VM via SSH"><code>sudo snap install core
+sudo snap refresh core
+sudo snap install --classic certbot
+sudo /snap/bin/certbot --nginx -d aula.seudominio.com --redirect
+sudo nginx -t</code></pre>
+<p>O Certbot modifica o site do Nginx para usar o certificado e redirecionar HTTP para HTTPS. Não substitua esse arquivo pelo bloco HTTP da etapa anterior depois da emissão.</p>
+<h4>6.3 · Conferir renovação</h4>
+<pre data-label="Bash · VM via SSH"><code>sudo /snap/bin/certbot certificates
+sudo /snap/bin/certbot renew --dry-run
+systemctl list-timers --all | grep certbot</code></pre>
+<p class="expected">Confira: certificado para seu domínio, simulação de renovação bem-sucedida e agendamento de renovação do snap. Mantenha o domínio apontado para a VM e a porta 80 disponível para validações HTTP futuras.</p>
+<p class="source">Referência: <a href="https://certbot.eff.org/instructions?os=snap&amp;ws=nginx">instruções oficiais do Certbot para Nginx</a>.</p>
+</article>
+
+<article class="lab-step" id="lesson-7">
+<p class="eyebrow">ETAPA 7 · VALIDAÇÃO E ENTREGA</p><h3>7. Confira a publicação completa</h3>
+<h4>7.1 · Testar a partir do seu computador</h4>
+<pre data-label="PowerShell local"><code>curl.exe -I http://aula.seudominio.com
+curl.exe -I https://aula.seudominio.com
+curl.exe https://aula.seudominio.com/health
+Test-NetConnection IP_PUBLICO_DA_VM -Port 8080</code></pre>
+<ul><li>HTTP: redirecionamento 301 ou 308 para a URL HTTPS.</li><li>HTTPS: status 200, sem ignorar a validação do certificado.</li><li>/health: JSON com status ok.</li><li>Porta 8080: <code>TcpTestSucceeded: False</code>. O teste pode demorar até expirar.</li></ul>
+<p>Abra <code>https://aula.seudominio.com</code> no navegador. Confira seu nome, ambiente <strong>Production</strong> e protocolo reconhecido <strong>https</strong>. Se aparecer http, confira TRUSTED_PROXY no .env, o gateway da rede e os cabeçalhos do Nginx.</p>
+<h4>7.2 · Consultar os logs</h4>
+<pre data-label="Bash · VM via SSH"><code>cd ~/apps/aula-mvc
+sudo docker compose logs --tail=100 web
+sudo tail -n 30 /var/log/nginx/access.log
+sudo tail -n 30 /var/log/nginx/error.log
+sudo systemctl status nginx --no-pager</code></pre>
+<p class="expected">Entrega: URL HTTPS, captura da página com seu nome, resposta do /health e uma explicação de como Nginx, Docker e MVC participam da requisição.</p>
+<h4>7.3 · Publicar uma alteração depois</h4>
+<p>Edite a View no projeto do computador. Na pasta local, envie o commit:</p>
+<pre data-label="PowerShell local · pasta do projeto MVC"><code>git add .
+git commit -m "Atualiza mensagem da página"
+git push</code></pre>
+<p>Na VM, atualize e reconstrua. O serviço pode ter uma breve interrupção durante a troca do contêiner.</p>
+<pre data-label="Bash · VM via SSH"><code>cd ~/apps/aula-mvc
+git pull --ff-only
+sudo docker compose up -d --build
+sudo docker compose ps
+curl -i http://127.0.0.1:8080/health</code></pre>
+<h4>7.4 · Encerrar o laboratório</h4>
+<p>Se quiser apenas parar a aplicação, use <code>sudo docker compose down</code> na pasta do projeto. Isso não para a cobrança dos recursos Azure. Para encerrar a prática, salve sua entrega e, no portal, abra o grupo <code>rg-aula-mvc</code>, confira que contém somente recursos desta aula e exclua o grupo. A exclusão remove a VM e seus dados. Remova também o registro DNS que apontava para ela. Desalocar a VM interrompe o processamento, mas discos e outros recursos podem continuar sendo cobrados.</p>
+</article>
+<h3>Checklist final da prática</h3>
+<p>Marque após verificar cada resultado. As marcações são reiniciadas ao recarregar a página.</p>
+<div class="card checklist">
+<label id="check-1"><input type="checkbox"><span><strong>1 · Projeto MVC.</strong> Personalize a página inicial, execute localmente e identifique a View, o Controller e a função dos Models. <em>Evidência: página funcionando no navegador.</em></span></label>
+<label id="check-2"><input type="checkbox"><span><strong>2 · VM Azure.</strong> Prepare a VM Linux e conecte via SSH com sua chave. Restrinja a porta 22 ao IP do administrador. <em>Evidência: terminal conectado à VM.</em></span></label>
+<label id="check-3"><input type="checkbox"><span><strong>3 · Envio via Git.</strong> Publique o código no repositório e clone-o na VM. Não inclua senhas ou chaves no Git. <em>Evidência: arquivos do projeto disponíveis no servidor.</em></span></label>
+<label id="check-4"><input type="checkbox"><span><strong>4 · Docker.</strong> Prepare o Dockerfile, construa a imagem e inicie o contêiner com as variáveis necessárias. Neste cenário, o Nginx roda na VM e acessa uma porta publicada somente em 127.0.0.1. <em>Evidência: resposta HTTP local da aplicação.</em></span></label>
+<label id="check-5"><input type="checkbox"><span><strong>5 · Nginx.</strong> Configure o proxy reverso para a porta local da aplicação. Valide a configuração antes de recarregar o serviço. <em>Evidência: aplicação respondendo através do Nginx.</em></span></label>
+<label id="check-6"><input type="checkbox"><span><strong>6 · Rede e HTTPS.</strong> Aponte o DNS para o IP público da VM, permita 80/443 no NSG e firewall e configure o certificado TLS. <em>Evidência: domínio acessível por HTTPS válido.</em></span></label>
+<label id="check-7"><input type="checkbox"><span><strong>7 · Aplicação publicada.</strong> Confira a página, os logs e o redirecionamento de HTTP para HTTPS. <em>Entrega: URL final, captura da página e explicação do caminho da requisição.</em></span></label>
+<p id="progresso" role="status">0 de 7 etapas concluídas</p><progress value="0" max="7" aria-label="Progresso da prática"></progress>
+</div>
+<div class="tip"><strong>Banco de dados é opcional.</strong> Caso exista, configure conexão, acesso restrito e persistência. Ele não é necessário para esta página de boas-vindas.</div>
+<h3>Como investigar problemas</h3>
+<div class="grid">
+<article class="card"><h3>Conexão esgotada</h3><p>Confira IP, DNS, regras do NSG, firewall e se o serviço está ouvindo na porta esperada.</p></article>
+<article class="card"><h3>Erro 502</h3><p>Verifique se a aplicação está em execução, a porta de destino configurada no Nginx e os logs do contêiner.</p></article>
+<article class="card"><h3>Aviso de certificado</h3><p>Confira o domínio, a validade do certificado e a configuração TLS do Nginx.</p></article>
+</div>
+</section>
+<section id="revisao">
+<h2>8. Perguntas de revisão</h2><p>Tente responder antes de abrir a explicação.</p>
+<details><summary>Qual é a diferença entre imagem e contêiner?</summary><p>A imagem é o pacote usado como base. O contêiner é uma instância criada a partir dela, com seu próprio estado de execução.</p></details>
+<details><summary>Por que usar o Nginx na frente da aplicação?</summary><p>Ele recebe as conexões públicas, termina o HTTPS e encaminha as requisições para a aplicação interna.</p></details>
+<details><summary>O DNS encaminha a requisição HTTP?</summary><p>Não. Ele resolve o nome para um endereço. A conexão web é feita com o endereço obtido.</p></details>
+<details><summary>A porta da aplicação deve estar aberta na internet?</summary><p>Não neste cenário. A aplicação atende localmente ao Nginx. O usuário acessa as portas web públicas.</p></details>
+<details><summary>O que comprova que a publicação funcionou?</summary><p>A página esperada responde pelo domínio com HTTPS válido, HTTP redireciona para HTTPS e os logs permitem conferir as requisições.</p></details>
+</section>
+</main>
+<script src="aula.js"></script>
+<footer>Aula prática • ASP.NET Core MVC + Azure + Docker + Nginx</footer>
+</body>
+</html>

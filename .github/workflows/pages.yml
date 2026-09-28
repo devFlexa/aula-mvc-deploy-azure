@@ -1,0 +1,48 @@
+name: Validar e publicar a aula
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    name: Validar guia, Docker e Nginx
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Testar o exemplo e o proxy em Linux
+        run: bash scripts/verify-linux.sh
+
+  deploy:
+    name: Publicar GitHub Pages
+    needs: validate
+    runs-on: ubuntu-24.04
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Preparar apenas os arquivos publicos
+        run: |
+          mkdir -p _site/downloads
+          cp index.html aula.css aula.js _site/
+          cp downloads/exemplo-mvc.zip _site/downloads/
+          touch _site/.nojekyll
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - name: Publicar
+        id: deployment
+        uses: actions/deploy-pages@v4

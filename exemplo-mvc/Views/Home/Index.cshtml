@@ -1,0 +1,18 @@
+@model AulaMvc.Models.BoasVindas
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Minha primeira publicação</title>
+  <style>body{font:18px/1.6 system-ui,sans-serif;margin:0;background:#edf7ff;color:#11254b;display:grid;place-items:center;min-height:100vh}main{margin:24px;padding:40px;max-width:650px;background:white;border:1px solid #badfff;border-radius:24px;box-shadow:0 20px 60px #176ba514}h1{color:#0078d4;line-height:1.15}strong{color:#138349}a{color:#0078d4}code{background:#e5f4ff;padding:4px 8px;border-radius:6px}</style>
+</head>
+<body><main>
+  <p>ASP.NET CORE MVC · AZURE · DOCKER · NGINX</p>
+  <h1>Minha primeira publicação</h1>
+  <p>Olá, <strong>@Model.Aluno</strong>! Sua aplicação MVC está funcionando.</p>
+  <p>Ambiente: <code>@Model.Ambiente</code></p>
+  <p>Protocolo reconhecido pela aplicação: <code>@Model.Protocolo</code></p>
+  <p><a href="/health">Verificar a saúde da aplicação</a></p>
+</main></body>
+</html>

@@ -1,0 +1,5 @@
+.local-tools/
+**/bin/
+**/obj/
+**/.env
+*.pem
