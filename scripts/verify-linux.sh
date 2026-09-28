@@ -59,5 +59,15 @@ sudo cp /tmp/aula-mvc-tls /etc/nginx/sites-available/aula-mvc
 sudo nginx -t
 sudo systemctl reload nginx
 curl -fsS --cacert /tmp/aula-cert.pem --resolve aula.seudominio.com:443:127.0.0.1 https://aula.seudominio.com/ | grep -F '<code>https</code>'
-curl -sSI -H 'Host: aula.seudominio.com' http://127.0.0.1/ | grep -F '301'
+redirect_ready=false
+for attempt in $(seq 1 15); do
+  curl -sSI -H 'Host: aula.seudominio.com' http://127.0.0.1/ > /tmp/aula-redirect.headers
+  if grep -q '^HTTP/1.1 301' /tmp/aula-redirect.headers && grep -qi '^Location: https://aula.seudominio.com/' /tmp/aula-redirect.headers; then
+    redirect_ready=true
+    break
+  fi
+  sleep 1
+done
+cat /tmp/aula-redirect.headers
+test "$redirect_ready" = true
 echo 'PASS: Docker build, Compose, MVC, health, loopback binding, Nginx proxy, TLS and HTTPS scheme.'
